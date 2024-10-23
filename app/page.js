@@ -1,9 +1,9 @@
 import Image from "next/image";
 
-
 export default function Home() {
   return (
-    
-    <div>Salam Aleikum!</div>
+    <div>
+      Salam, Aleikum!
+    </div>
   );
 }

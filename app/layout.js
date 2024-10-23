@@ -1,6 +1,6 @@
 import { Afacad } from "next/font/google";
-import "./globals.css";
 import Header from "./components/Header"
+import "./globals.css";
 
 const afacad = Afacad({
   weight: ['400', '700'],
