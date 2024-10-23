@@ -11,10 +11,10 @@ const Header = () => {
         {/* Left side: Help link with icon */}
         <Link href="/help" className="flex items-center">
           <FaQuestionCircle className="mr-2" />
-          <span>Help</span>
+          <span>help</span>
         </Link>
         {/* Center: Gorbachev link */}
-        <Link href="/" className="text-xl font-bold">
+        <Link href="/" className="text-2xl font-bold">
           gorbachev
         </Link>
         {/* Right side: Users and Shopping Bag icons */}

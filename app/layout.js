@@ -1,5 +1,7 @@
 import { Afacad } from "next/font/google";
 import Header from "./components/Header"
+import NavigationMenu from "./components/NavigationMenu";
+
 import "./globals.css";
 
 const afacad = Afacad({
@@ -20,6 +22,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={afacad.className}>
         <Header />
+        <NavigationMenu />
         {children}
       </body>
     </html>
