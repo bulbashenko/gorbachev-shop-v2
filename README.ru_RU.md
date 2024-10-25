@@ -1,3 +1,5 @@
+[English](https://github.com/bulbashenko/gorbachev-shop-v2/blob/main/README.md) | [Русский](https://github.com/bulbashenko/gorbachev-shop-v2/blob/main/README.ru_RU.md) | [Slovenský](https://github.com/bulbashenko/gorbachev-shop-v2/blob/main/README.sk_SK.md)
+
 # Электронная коммерция
 
 **Webové technológie TUKE Skupina 3**
