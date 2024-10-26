@@ -1,22 +1,25 @@
 import Image from "next/image";
 import { faker } from "@faker-js/faker";
+import product_data from "./utils/product_data"
+import Item from "./components/Item";
 
-const randomProduct = faker.commerce.productName();
 const randomImage = faker.image.urlLoremFlickr({ width: 128, height: 128});
 
 
 export default function Home() {
   return (
+    // Author: bulbashenko
+    // Output of product cards
     <div>
-      <img src={randomImage} width={128} height={128} />
-      <h1 className="text-4xl">{randomProduct}</h1>
-      <p>Velit do cupidatat ad mollit consequat irure consectetur culpa excepteur. Enim laborum ad do exercitation enim non sunt consectetur do reprehenderit culpa deserunt culpa. Cillum et tempor sunt occaecat consectetur duis duis dolore culpa esse mollit pariatur. Ipsum quis cillum irure aliqua magna elit laboris ex excepteur in. Ea consequat qui eu veniam eu laboris incididunt dolor irure duis.
-
-Laboris duis do non adipisicing adipisicing aute tempor fugiat nostrud. Deserunt cupidatat deserunt aliqua laborum deserunt ad officia quis occaecat. Mollit laboris consequat nulla dolore reprehenderit.
-
-Cillum ex duis ullamco occaecat aliqua non in esse aute aliqua qui. Consectetur dolor ex proident esse aute culpa sunt nisi veniam consequat. Incididunt et cillum nostrud deserunt do incididunt laboris ex consectetur magna.
-
-Consequat ipsum ea nulla velit consequat. Esse tempor laborum ut minim nisi reprehenderit. Anim reprehenderit excepteur aliqua quis ad. Cillum et nulla aliqua exercitation occaecat Lorem consectetur consectetur ea.</p>
+      <div className="container mx-auto px-4 py-6">
+        <div className="flex flex-wrap -mx-4">
+          {product_data.products.map((product) => (
+            <div key={product.slug} className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 px-4 mb-6">
+              <Item product={product} />
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
