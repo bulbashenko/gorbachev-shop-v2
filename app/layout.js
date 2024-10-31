@@ -37,17 +37,16 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark bg-background text-foreground" >
-      <Analytics>
       <CartProvider>
       <CurrencyProvider>
       <body className={`${afacad.className} `}>
+        <Analytics />
         <Header />
         <NavigationMenu />
         {children}
       </body>
       </CurrencyProvider>
       </CartProvider>
-      </Analytics>
     </html>
   );
 }
