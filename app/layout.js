@@ -5,6 +5,7 @@ import NavigationMenu from "./components/NavigationMenu";
 import Header from "./components/Header";
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { CartProvider } from './contexts/CartContext';
+import { Analytics } from "@vercel/analytics/react"
 
 const neue_machina = localFont({
   src: [
@@ -36,6 +37,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark bg-background text-foreground" >
+      <Analytics>
       <CartProvider>
       <CurrencyProvider>
       <body className={`${afacad.className} `}>
@@ -45,6 +47,7 @@ export default function RootLayout({ children }) {
       </body>
       </CurrencyProvider>
       </CartProvider>
+      </Analytics>
     </html>
   );
 }
