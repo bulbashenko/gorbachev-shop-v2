@@ -1,50 +1,234 @@
 // components/Header.js
-
+"use client";
 import Link from 'next/link';
-import { FaQuestionCircle, FaUser, FaShoppingBag } from 'react-icons/fa';
+import links from '../utils/navigationLinks'
+import { usePathname } from 'next/navigation';
+import { useState, useEffect, useContext } from 'react';
+import {
+  FiUser,
+  FiHeart,
+  FiShoppingCart,
+  FiMoreVertical,
+  FiX,
+} from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { CurrencyContext } from '../contexts/CurrencyContext';
 
-const Header = () => {
+export default function Header() {
+  const { currency, setCurrency } = useContext(CurrencyContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
+  const pathname = usePathname(); // Use usePathname to get the current path
+
+  // Prevent scrolling of background when the side menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [isMenuOpen]);
+
+  // Animation variants for currency selection
+  const currencyVariants = {
+    hidden: {
+      opacity: 0,
+      height: 0,
+      transition: { duration: 0.2 },
+    },
+    visible: {
+      opacity: 1,
+      height: 'auto',
+      transition: { duration: 0.2 },
+    },
+  };
+
   return (
-    <header className="bg-black text-white p-4">
-      {/* For larger screens */}
-      <div className="hidden md:flex justify-between items-center">
-        {/* Left side: Help link with icon */}
-        <Link href="/help" className="flex items-center">
-          <FaQuestionCircle className="mr-2" />
-          <span>help</span>
-        </Link>
-        {/* Center: Gorbachev link */}
-        <Link href="/" className="text-2xl font-bold">
-          gorbachev
-        </Link>
-        {/* Right side: Users and Shopping Bag icons */}
-        <div className="flex space-x-4">
-          <Link href="/users">
-            <FaUser />
-          </Link>
-          <Link href="/cart">
-            <FaShoppingBag />
-          </Link>
+    <header className="bg-black text-white">
+      <div className="container mx-auto py-4 px-6">
+        {/* Header for mobile version */}
+        <div className="flex items-center justify-between sm:hidden">
+          <button onClick={() => setIsMenuOpen(true)}>
+            <FiMoreVertical className="w-6 h-6 text-teal-500" />
+          </button>
+
+          <div className="text-2xl font-bold">
+            <Link href="/" className="cursor-pointer">
+              gorbachev
+            </Link>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <Link href="/cart">
+              <FiShoppingCart className="w-6 h-6" />
+            </Link>
+          </div>
+        </div>
+
+        {/* Header for desktop version */}
+        <div className="hidden sm:flex items-center justify-between">
+          <div className="text-2xl font-bold">
+            <Link href="/" className="cursor-pointer">
+              gorbachev
+            </Link>
+          </div>
+
+          <nav className="flex space-x-6">
+            {links.map((link) => (
+              <Link key={link.href} href={link.href} className={pathname === link.href ? 'text-teal-500' : 'text-white'}>
+                {link.label}
+              </Link>
+            ))}
+            <Link href="/information" className={pathname === '/information' ? 'text-teal-500' : 'text-white'}>
+              Information
+            </Link>
+          </nav>
+
+          <div className="flex items-center space-x-4 relative">
+            {/* Currency selection */}
+            <div
+              className="relative"
+              onMouseEnter={() => setIsCurrencyOpen(true)}
+              onMouseLeave={() => setIsCurrencyOpen(false)}
+            >
+              <button
+                onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
+                className="bg-black text-white p-1 rounded flex items-center"
+              >
+                {currency}
+                <svg
+                  className={`w-4 h-4 ml-1 transition-transform ${isCurrencyOpen ? 'transform rotate-180' : ''}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <AnimatePresence>
+                {isCurrencyOpen && (
+                  <motion.ul
+                    className="mt-2 w-full bg-black rounded shadow-lg overflow-hidden absolute left-0"
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={currencyVariants}
+                  >
+                    {['EUR', 'USD', 'RUB', 'UAH'].map((cur) => (
+                      <li
+                        key={cur}
+                        onClick={() => {
+                          setCurrency(cur);
+                          setIsCurrencyOpen(false);
+                        }}
+                        className="px-4 py-2 hover:bg-teal-700 cursor-pointer"
+                      >
+                        {cur}
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Functional icons */}
+            <Link href="/account">
+              <FiUser className="w-6 h-6" />
+            </Link>
+            <Link href="/favorites">
+              <FiHeart className="w-6 h-6" />
+            </Link>
+            <Link href="/cart">
+              <FiShoppingCart className="w-6 h-6" />
+            </Link>
+          </div>
         </div>
       </div>
-      {/* For smartphones */}
-      <div className="flex md:hidden justify-between items-center">
-        {/* Left side: Gorbachev link */}
-        <Link href="/" className="text-xl font-bold">
-          gorbachev
-        </Link>
-        {/* Right side: Users and Shopping Bag icons */}
-        <div className="flex space-x-4">
-          <Link href="/users">
-            <FaUser />
+
+      {/* Dark overlay for hiding main content when menu is open */}
+      <div
+        className={`fixed inset-0 bg-black ${isMenuOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'} transition-opacity duration-300`}
+        onClick={() => setIsMenuOpen(false)}
+      ></div>
+
+      {/* Side menu for mobile version */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-black p-6 transform transition-transform duration-300 ease-in-out z-50 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+      >
+        <button className="absolute top-4 right-4 text-white" onClick={() => setIsMenuOpen(false)}>
+          <FiX className="w-6 h-6" />
+        </button>
+
+        {/* Navigation links */}
+        <nav className="mt-8 flex flex-col space-y-4">
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} className={`${pathname === link.href ? 'text-teal-500' : 'text-white'} text-lg`}>
+              {link.label}
+            </Link>
+          ))}
+          <Link href="/information" className={`${pathname === "/information" ? 'text-teal-500' : 'text-white'} text-lg`}>
+            Information
           </Link>
-          <Link href="/cart">
-            <FaShoppingBag />
-          </Link>
+        </nav>
+
+        <div className="mt-8">
+          <div className="mb-4">
+            <label className="block mb-2 text-white">Currency</label>
+            <div>
+              <button
+                onClick={() => setIsCurrencyOpen(!isCurrencyOpen)}
+                className="bg-black text-white p-2 rounded w-full flex items-center justify-between"
+              >
+                {currency}
+                <svg
+                  className={`w-4 h-4 ml-1 transition-transform ${isCurrencyOpen ? 'transform rotate-180' : ''}`}
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <AnimatePresence>
+                {isCurrencyOpen && (
+                  <motion.ul
+                    className="mt-2 w-full bg-black rounded shadow-lg overflow-hidden"
+                    initial="hidden"
+                    animate="visible"
+                    exit="hidden"
+                    variants={currencyVariants}
+                  >
+                    {['EUR', 'USD', 'RUB', 'UAH'].map((cur) => (
+                      <li
+                        key={cur}
+                        onClick={() => {
+                          setCurrency(cur);
+                          setIsCurrencyOpen(false);
+                        }}
+                        className="px-4 py-2 hover:bg-teal-700 cursor-pointer"
+                      >
+                        {cur}
+                      </li>
+                    ))}
+                  </motion.ul>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          <div className="flex space-x-4">
+            <Link href="/account">
+              <FiUser className="w-6 h-6" />
+            </Link>
+            <Link href="/favorites">
+              <FiHeart className="w-6 h-6" />
+            </Link>
+          </div>
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

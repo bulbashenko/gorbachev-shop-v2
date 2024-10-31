@@ -2,14 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
-
 /* Hide scrollbar for Chrome, Safari, and Opera */
 .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
   
-  /* Hide scrollbar for IE, Edge, and Firefox */
-  .scrollbar-hide {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-  }
+/* Hide scrollbar for IE, Edge, and Firefox */
+.scrollbar-hide {
+ -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+:root {
+  --background: #ffffff; /* Цвет фона для светлой темы */
+  --foreground: #000000; /* Цвет текста для светлой темы */
+}
+
+.dark {
+  --background: #000000; /* Цвет фона для темной темы */
+  --foreground: #ffffff; /* Цвет текста для темной темы */
+}
