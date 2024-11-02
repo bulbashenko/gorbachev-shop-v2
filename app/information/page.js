@@ -1,17 +1,21 @@
-// AboutUs.js
-import React from 'react';
+"use client"; // Add this line to mark the file as a client component
+
+import React, { useState } from 'react';
 
 const AboutUs = () => {
+  const [showPopup, setShowPopup] = useState(false);
+  const [currentLink, setCurrentLink] = useState('');
+
   const members = [
     {
       name: 'Murcko Adam',
       hobbies: 'Hobbies for member 1',
       description: 'My name is Adam Murcko, and I am 22 years old. I am currently studying Computer Networks at the Technical University of Košice. My interests include playing video games, keeping up with the latest developments in the tech world, and exploring Japanese culture, particularly through anime.',
-      imgSrc: 'https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/463215621_3279193688878941_1369419553071856078_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=AE2WJJwY_LQQ7kNvgEjGFQS&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=AVI0ipsgrNrlGBU3Zgtzjvy&oh=00_AYDtUy1Aj7VKyUQsq5t_461uCf8NDtFa45NQ_lpkaDBR_g&oe=672BDCE1', 
+      imgSrc: 'https://scontent-vie1-1.xx.fbcdn.net/v/t39.30808-6/463215621_3279193688878941_1369419553071856078_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=6ee11a&_nc_ohc=AE2WJJwY_LQQ7kNvgEjGFQS&_nc_zt=23&_nc_ht=scontent-vie1-1.xx&_nc_gid=AVI0ipsgrNrlGBU3Zgtzjvy&oh=00_AYDtUy1Aj7VKyUQsq5t_461uCf8NDtFa45NQ_lpkaDBR_g&oe=672BDCE1',
       socialLinks: {
-        facebook: 'https://www.facebook.com/adam.murcko',
-        github: 'https://github.com/adammurcko',
-        instagram: 'https://www.instagram.com/adammurcko',
+        facebook: 'https://www.facebook.com/murci669/',
+        github: 'https://github.com/Zephyrer669',
+        instagram: 'https://www.instagram.com/murcik505/',
         youtube: 'https://www.youtube.com/channel/adam.murcko',
       }
     },
@@ -53,6 +57,20 @@ const AboutUs = () => {
     },
   ];
 
+  const handleIconClick = (link) => {
+    setCurrentLink(link);
+    setShowPopup(true);
+  };
+
+  const handleConfirm = () => {
+    window.open(currentLink, '_blank');
+    setShowPopup(false);
+  };
+
+  const handleCancel = () => {
+    setShowPopup(false);
+  };
+
   return (
     <section style={styles.aboutUs}>
       <h2>About Us</h2>
@@ -67,24 +85,27 @@ const AboutUs = () => {
               <p style={styles.description}>{member.description}</p>
               {/* Social Media Icons Section */}
               <div style={styles.iconContainer}>
-                <a href={member.socialLinks.facebook} target="_blank" rel="noopener noreferrer">
-                  <img src="/images/FacebookIcon.png" alt="Facebook" style={styles.icon} />
-                </a>
-                <a href={member.socialLinks.github} target="_blank" rel="noopener noreferrer">
-                  <img src="/images/GitHubIcon.png" alt="GitHub" style={styles.icon} />
-                </a>
-                <a href={member.socialLinks.instagram} target="_blank" rel="noopener noreferrer">
-                  <img src="/images/InstagramIcon.png" alt="Instagram" style={styles.icon} />
-                </a>
-                <a href={member.socialLinks.youtube} target="_blank" rel="noopener noreferrer">
-                  <img src="/images/YoutubeIcon.png" alt="YouTube" style={styles.icon} />
-                </a>
+                {Object.entries(member.socialLinks).map(([key, link]) => (
+                  <div key={key} onClick={() => handleIconClick(link)} style={styles.iconWrapper}>
+                    <img src={`/images/${key.charAt(0).toUpperCase() + key.slice(1)}Icon.png`} alt={key} style={styles.icon} />
+                  </div>
+                ))}
               </div>
               {/* End of Social Media Icons Section */}
             </div>
           </div>
         ))}
       </div>
+      {/* Popup Confirmation Dialog */}
+      {showPopup && (
+        <div style={styles.popup}>
+          <div style={styles.popupContent}>
+            <p>Do you really want to be redirected?</p>
+            <button onClick={handleConfirm} style={styles.button}>Yes</button>
+            <button onClick={handleCancel} style={styles.button}>No</button>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
@@ -152,10 +173,47 @@ const styles = {
     borderRadius: '10px', // Rounded corners for the container
     backgroundColor: '#1a1a1a', // Same background as the member section
   },
+  iconWrapper: { // New style for icon wrapper
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    border: '2px solid #fff', // White border around each icon
+    borderRadius: '50%', // Circular border
+    margin: '0 5px', // Margin between icons
+    padding: '5px', // Padding inside the border
+    cursor: 'pointer',
+  },
   icon: {
     width: '30px', // Set width for icons
     height: '30px', // Set height for icons
-    margin: '0 5px', // Add margin left and right to each icon
+  },
+  popup: {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)', // Dark semi-transparent background
+    zIndex: 1000,
+  },
+  popupContent: {
+    backgroundColor: '#000000', // Black background for the popup
+    color: '#ffffff', // White text color
+    padding: '20px',
+    borderRadius: '10px',
+    textAlign: 'center',
+  },
+  button: {
+    margin: '5px',
+    padding: '10px 15px',
+    borderRadius: '5px',
+    border: 'none',
+    cursor: 'pointer',
+    backgroundColor: '#ffffff',
+    color: '#000000',
   },
 };
 
