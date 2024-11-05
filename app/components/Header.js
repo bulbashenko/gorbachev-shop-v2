@@ -1,7 +1,7 @@
 // components/Header.js
 "use client";
 import Link from 'next/link';
-import links from '../utils/navigationLinks'
+import links from '../utils/navigationLinks';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect, useContext } from 'react';
 import {
@@ -75,11 +75,18 @@ export default function Header() {
 
           <nav className="flex space-x-6">
             {links.map((link) => (
-              <Link key={link.href} href={link.href} className={pathname === link.href ? 'text-teal-500' : 'text-white'}>
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`${pathname === link.href ? 'text-teal-500' : 'text-white'} text-lg`}
+              >
                 {link.label}
               </Link>
             ))}
-            <Link href="/information" className={pathname === '/information' ? 'text-teal-500' : 'text-white'}>
+            <Link
+              href="/information"
+              className={`${pathname === '/information' ? 'text-teal-500' : 'text-white'} text-lg`}
+            >
               Information
             </Link>
           </nav>
@@ -164,11 +171,18 @@ export default function Header() {
         {/* Navigation links */}
         <nav className="mt-8 flex flex-col space-y-4">
           {links.map((link) => (
-            <Link key={link.href} href={link.href} className={`${pathname === link.href ? 'text-teal-500' : 'text-white'} text-lg`}>
+            <Link
+              key={link.href}
+              href={link.href}
+              className={`${pathname === link.href ? 'text-teal-500' : 'text-white'} text-xl`}
+            >
               {link.label}
             </Link>
           ))}
-          <Link href="/information" className={`${pathname === "/information" ? 'text-teal-500' : 'text-white'} text-lg`}>
+          <Link
+            href="/information"
+            className={`${pathname === "/information" ? 'text-teal-500' : 'text-white'} text-xl`}
+          >
             Information
           </Link>
         </nav>
