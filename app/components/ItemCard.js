@@ -42,18 +42,6 @@ export default function ItemCard({ product }) {
   // Function to add the product to the cart and display a notification
   const handleAddToCart = () => {
     addToCart(product); // Add product to the cart
-
-    // Display alert
-    alert("Added");
-    // Show notification
-    toast.success(`${name} added to cart`, {
-      position: 'top-right',
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
   };
 
   return (

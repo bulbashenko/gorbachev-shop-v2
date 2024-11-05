@@ -7,6 +7,7 @@ import { CurrencyProvider } from './contexts/CurrencyContext';
 import { CartProvider } from './contexts/CartContext';
 import { Analytics } from "@vercel/analytics/react"
 import Providers from "./components/Providers";
+import Footer from "./components/Footer";
 
 const neue_machina = localFont({
   src: [
@@ -47,6 +48,7 @@ export default function RootLayout({ children }) {
         <Header />
         <NavigationMenu />
         {children}
+        <Footer />
       </body>
       </CurrencyProvider>
       </CartProvider>
