@@ -108,7 +108,7 @@ useEffect(() => {
             <h2 className="text-4xl font-bold mb-4 text-center">Zmeny v UI/UX a prístupnosti</h2>
             <p className="mb-2 text-center">Táto sekcia obsahuje informácie o vykonaných vylepšeniach, úpravách a modifikáciách z pohľadu prístupnosti a používateľského rozhrania.</p>
             <p className="mb-2 text-center">Veľkosť textu môžete zmeniť tlačidlami, použitím klávesy CTRL/ALT a +/-</p>
-            <p className="mb-2 text-center">Pre obnovenie textu stačí zatlačit CTRL/ALT 0</p>
+            <p className="mb-2 text-center">Pre obnovenie textu stačí zatlačiť CTRL/ALT 0</p>
             <p className='mb-2 text-center'></p>
             
             <div className="flex justify-center space-x-2 mt-4">
