@@ -2,9 +2,25 @@
 import Image from "next/image";
 import ItemCard from '../components/ItemCard';
 import products from '../utils/productsData';
+import { motion } from "framer-motion";
 
-export default function Home() {
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.05,
+    },
+  },
+};
+
+export default function Catalog() {
   return (
+    <motion.div
+    className=""
+    variants={containerVariants}
+    initial="hidden"
+    animate="visible"
+  >
     <div>
     <h1 className="text-3xl font-bold mb-6 text-center">All Products</h1>
     <div className="container mx-auto px-6 py-8">
@@ -15,5 +31,6 @@ export default function Home() {
       </div>
     </div>
     </div>
+    </motion.div>
   );
 }
