@@ -255,7 +255,7 @@ const ProductPage = ({ product }) => {
         )}
 
         {/* Основное изображение */}
-        <div className="relative w-full h-96 sm:h-[500px] md:h-[600px] lg:h-[700px]">
+        <div className="relative w-full h-[30rem] lg:h-[700px] md:h-[57rem]">
             <Image
                 src={currentImage}
                 alt={name}
