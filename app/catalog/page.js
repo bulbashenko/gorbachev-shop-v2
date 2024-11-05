@@ -1,4 +1,5 @@
 // page.js
+"use client"
 import Image from "next/image";
 import ItemCard from '../components/ItemCard';
 import products from '../utils/productsData';
@@ -31,6 +32,7 @@ export default function Catalog() {
       </div>
     </div>
     </div>
+
     </motion.div>
   );
 }
