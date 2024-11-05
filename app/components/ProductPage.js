@@ -1,3 +1,4 @@
+// ./components/ProductPage.js
 'use client';
 
 import React, { useState, useContext } from 'react';
@@ -9,8 +10,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import 'react-toastify/dist/ReactToastify.css';
+import useDeviceType from '../hooks/useDeviceType';
+import FixedBottomButton from './FixedBottomButton';
 
-// Варианты анимации для плавного раскрытия
+// Animation variants for smooth expansion
 const dropdownVariants = {
   hidden: { 
     opacity: 0,
@@ -38,7 +41,7 @@ const dropdownVariants = {
   }
 };
 
-// Компонент выпадающей секции
+// Dropdown section component
 const DropdownSection = ({ title, isOpen, onToggle, children }) => {
   return (
     <div className="bg-zinc-600 rounded-xl overflow-hidden">
@@ -82,7 +85,7 @@ const DropdownSection = ({ title, isOpen, onToggle, children }) => {
   );
 };
 
-// Компонент селектора количества
+// Quantity selector component
 const QuantitySelector = ({ quantity, setQuantity, maxQuantity }) => {
   const handleIncrement = () => {
     if (quantity < maxQuantity) {
@@ -160,11 +163,14 @@ const ProductPage = ({ product }) => {
     comment: '',
   });
 
-  // States for dropdowns
+  // States for dropdown sections
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [isDeliveryInfoOpen, setIsDeliveryInfoOpen] = useState(false);
   const [isShippingCostOpen, setIsShippingCostOpen] = useState(false);
+
+  // Determine device type
+  const deviceType = useDeviceType();
 
   // Calculate price after discount
   const basePrice = discount > 0 ? price - (price * discount) / 100 : price;
@@ -188,7 +194,18 @@ const ProductPage = ({ product }) => {
 
   // Function to add to cart and show notification
   const handleAddToCart = () => {
-    addToCart({...product, quantity});
+    try {
+      addToCart({ ...product, quantity });
+      toast.success(`${quantity} ${name} added to cart!`, {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    } catch (error) {
+      toast.error('Failed to add to cart. Please try again.', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    }
   };
 
   // Handle changes in the review form
@@ -217,70 +234,70 @@ const ProductPage = ({ product }) => {
     });
   };
 
-  // Standard information for delivery and shipping cost
-  const standardDeliveryInfo = "We offer free delivery across the country within 3-5 business days.";
-  const standardShippingCost = "Shipping cost is 50$ for orders up to 50$ and free for orders over 50$.";
+  // Standard delivery information and shipping cost
+  const standardDeliveryInfo = "We offer free shipping within the country within 3-5 business days.";
+  const standardShippingCost = "Shipping costs are $50 for orders up to $50 and free for orders over $50.";
 
-  // Объединяем основное изображение с дополнительными для отображения всех миниатюр
+  // Combine main image with additional images to display all thumbnails
   const allImages = additionalImages || [];
 
   return (
     <div className="min-h-screen p-6">
       <ToastContainer />
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
-        {/* Раздел с изображениями продукта */}
+        {/* Product images section */}
         <div className="flex-1">
-    <div className="flex flex-col lg:flex-row">
-        {/* Миниатюры изображений */}
-        {allImages.length > 0 && (
-            <div className="flex flex-row lg:flex-col lg:mr-4 mb-4 lg:mb-0">
+          <div className="flex flex-col lg:flex-row">
+            {/* Image thumbnails */}
+            {allImages.length > 0 && (
+              <div className="flex flex-row lg:flex-col lg:mr-4 mb-4 lg:mb-0">
                 {allImages.map((img, index) => (
-                    <div
-                        key={index}
-                        className={`relative w-10 h-10 lg:w-12 lg:h-12 mr-2 lg:mr-0 lg:mb-2 cursor-pointer rounded-md overflow-hidden ${
-                            currentImage === img ? 'border-2 border-zinc-500' : 'border border-transparent'
-                        }`}
-                        onClick={() => setCurrentImage(img)}
-                    >
-                        <Image
-                            src={img}
-                            alt={`${name} ${index + 1}`}
-                            layout="fill"
-                            objectFit="cover"
-                            className="rounded-md"
-                        />
-                    </div>
+                  <div
+                    key={index}
+                    className={`relative w-10 h-10 lg:w-12 lg:h-12 mr-2 lg:mb-2 cursor-pointer rounded-md overflow-hidden ${
+                      currentImage === img ? 'border-2 border-zinc-500' : 'border border-transparent'
+                    }`}
+                    onClick={() => setCurrentImage(img)}
+                  >
+                    <Image
+                      src={img}
+                      alt={`${name} ${index + 1}`}
+                      layout="fill"
+                      objectFit="cover"
+                      className="rounded-md"
+                    />
+                  </div>
                 ))}
-            </div>
-        )}
+              </div>
+            )}
 
-        {/* Основное изображение */}
-        <div className="relative w-full h-96 sm:h-[500px] md:h-[600px] lg:h-[700px]">
-            <Image
+            {/* Main image */}
+            <div className="relative w-full h-96 sm:h-[500px] md:h-[600px] lg:h-[700px]">
+              <Image
                 src={currentImage}
                 alt={name}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg shadow-lg"
                 priority
-            />
+              />
+            </div>
+          </div>
         </div>
-    </div>
-</div>
 
-        {/* Раздел с информацией о продукте */}
+        {/* Product information section */}
         <div className="flex-1 flex flex-col">
           <h1 className="text-3xl font-bold mb-4">{name}</h1>
           <p className="text-2xl mb-4">{formattedPrice}</p>
 
-          {/* Оригинальная цена, если есть скидка */}
+          {/* Original price if there's a discount */}
           {discount > 0 && (
             <p className="text-lg line-through text-gray-500 mb-6">
               {formattedOriginalPrice}
             </p>
           )}
 
-          {/* Селектор количества и кнопка "Добавить в корзину" */}
+          {/* Quantity selector and "Add to Cart" button */}
           <div className="space-y-4 mb-6">
             <QuantitySelector
               quantity={quantity}
@@ -288,9 +305,10 @@ const ProductPage = ({ product }) => {
               maxQuantity={availability}
             />
             
+            {/* "Add to Cart" button visible only on desktops */}
             <motion.button
               onClick={handleAddToCart}
-              className="w-full bg-zinc-600 text-white py-3 px-6 rounded-xl text-center transition-colors duration-300 hover:bg-zinc-500"
+              className="w-full bg-zinc-600 text-white py-3 px-6 rounded-xl text-center transition-colors duration-300 hover:bg-zinc-500 hidden sm:block"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2 }}
@@ -299,9 +317,9 @@ const ProductPage = ({ product }) => {
             </motion.button>
           </div>
 
-          {/* Дополнительная информация */}
+          {/* Additional information */}
           <div className="space-y-4">
-            {/* Описание */}
+            {/* Description */}
             <DropdownSection
               title="Description"
               isOpen={isDescriptionOpen}
@@ -310,9 +328,9 @@ const ProductPage = ({ product }) => {
               <p>{description}</p>
             </DropdownSection>
 
-            {/* Форма добавления отзыва */}
+            {/* Review submission form */}
             <DropdownSection
-              title="Add a Review"
+              title="Add Review"
               isOpen={isReviewOpen}
               onToggle={() => setIsReviewOpen(prev => !prev)}
             >
@@ -373,7 +391,7 @@ const ProductPage = ({ product }) => {
               </form>
             </DropdownSection>
 
-            {/* Информация о доставке */}
+            {/* Delivery information */}
             <DropdownSection
               title="Delivery Information"
               isOpen={isDeliveryInfoOpen}
@@ -382,7 +400,7 @@ const ProductPage = ({ product }) => {
               <p>{standardDeliveryInfo}</p>
             </DropdownSection>
 
-            {/* Стоимость доставки */}
+            {/* Shipping cost */}
             <DropdownSection
               title="Shipping Cost"
               isOpen={isShippingCostOpen}
@@ -393,6 +411,14 @@ const ProductPage = ({ product }) => {
           </div>
         </div>
       </div>
+
+      {/* Fixed button for mobile devices */}
+      <FixedBottomButton
+        deviceType={deviceType}
+        formattedPrice={formattedPrice}
+        quantity={quantity}
+        product={product}
+      />
     </div>
   );
 };

@@ -47,7 +47,7 @@ export default function Header() {
     <header className="bg-black text-white">
       <div className="container mx-auto py-4 px-6">
         {/* Header for mobile version */}
-        <div className="flex items-center justify-between sm:hidden">
+        <div className="flex items-center justify-between lg:hidden">
           <button onClick={() => setIsMenuOpen(true)}>
             <FiMoreVertical className="w-6 h-6 text-teal-500" />
           </button>
@@ -66,7 +66,7 @@ export default function Header() {
         </div>
 
         {/* Header for desktop version */}
-        <div className="hidden sm:flex items-center justify-between">
+        <div className="hidden lg:flex items-center justify-between">
           <div className="text-2xl font-bold">
             <Link href="/" className="cursor-pointer">
               gorbachev
@@ -78,14 +78,19 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`${pathname === link.href ? 'text-teal-500' : 'text-white'} text-lg`}
+                className={`${
+                  pathname === link.href ? 'text-teal-500' : 'text-white'
+                } text-lg`}
               >
                 {link.label}
               </Link>
             ))}
+            {/* Information Link with Responsive Classes */}
             <Link
               href="/information"
-              className={`${pathname === '/information' ? 'text-teal-500' : 'text-white'} text-lg`}
+              className={`${
+                pathname === '/information' ? 'text-teal-500' : 'text-white'
+              } text-lg block lg:hidden xl:block`}
             >
               Information
             </Link>
@@ -104,13 +109,20 @@ export default function Header() {
               >
                 {currency}
                 <svg
-                  className={`w-4 h-4 ml-1 transition-transform ${isCurrencyOpen ? 'transform rotate-180' : ''}`}
+                  className={`w-4 h-4 ml-1 transition-transform ${
+                    isCurrencyOpen ? 'transform rotate-180' : ''
+                  }`}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
 
@@ -156,15 +168,22 @@ export default function Header() {
 
       {/* Dark overlay for hiding main content when menu is open */}
       <div
-        className={`fixed inset-0 bg-black ${isMenuOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'} transition-opacity duration-300`}
+        className={`fixed inset-0 bg-black ${
+          isMenuOpen ? 'opacity-50' : 'opacity-0 pointer-events-none'
+        } transition-opacity duration-300`}
         onClick={() => setIsMenuOpen(false)}
       ></div>
 
       {/* Side menu for mobile version */}
       <div
-        className={`fixed top-0 left-0 h-full w-64 bg-black p-6 transform transition-transform duration-300 ease-in-out z-50 ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 h-full w-64 bg-black p-6 transform transition-transform duration-300 ease-in-out z-50 ${
+          isMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
-        <button className="absolute top-4 right-4 text-white" onClick={() => setIsMenuOpen(false)}>
+        <button
+          className="absolute top-4 right-4 text-white"
+          onClick={() => setIsMenuOpen(false)}
+        >
           <FiX className="w-6 h-6" />
         </button>
 
@@ -174,14 +193,19 @@ export default function Header() {
             <Link
               key={link.href}
               href={link.href}
-              className={`${pathname === link.href ? 'text-teal-500' : 'text-white'} text-xl`}
+              className={`${
+                pathname === link.href ? 'text-teal-500' : 'text-white'
+              } text-xl`}
             >
               {link.label}
             </Link>
           ))}
+          {/* Information Link in Side Menu */}
           <Link
             href="/information"
-            className={`${pathname === "/information" ? 'text-teal-500' : 'text-white'} text-xl`}
+            className={`${
+              pathname === '/information' ? 'text-teal-500' : 'text-white'
+            } text-xl`}
           >
             Information
           </Link>
@@ -197,13 +221,20 @@ export default function Header() {
               >
                 {currency}
                 <svg
-                  className={`w-4 h-4 ml-1 transition-transform ${isCurrencyOpen ? 'transform rotate-180' : ''}`}
+                  className={`w-4 h-4 ml-1 transition-transform ${
+                    isCurrencyOpen ? 'transform rotate-180' : ''
+                  }`}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
                 </svg>
               </button>
               <AnimatePresence>
