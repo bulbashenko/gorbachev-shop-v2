@@ -153,9 +153,8 @@ useEffect(() => {
                             alt="Fotografia sekcie zmeny 3"
                             className="w-auto h-auto object-cover rounded-lg"
                         />
-                        <h3 className="text-lg font-semibold mt-2 mb-2">Dizajn podstránky ...</h3>
-                        <p className="">Toto je popis k fotke 3. Môžete sem napísať niečo viac o tejto fotke.</p>
-                        <p className="">Toto je popis k fotke 3. Môžete sem napísať niečo viac o tejto fotke.</p>
+                        <h3 className="text-lg font-semibold mt-2 mb-2">Návrh responzivity</h3>
+                        <p className="">Jeden z prvých dizajnov responzivity</p>
                     </div>
 
                     {/* Fotka 4  */}
@@ -165,9 +164,8 @@ useEffect(() => {
                             alt="Fotografia sekcie zmeny 4"
                             className="w-auto h-auto object-cover rounded-lg"
                         />
-                        <h3 className="text-lg font-semibold mt-2 mb-2">Dizajn podstránky ...</h3>
-                        <p className="">Toto je popis k fotke 4. Môžete sem napísať niečo viac o tejto fotke.</p>
-                        <p className="">Toto je popis k fotke 4. Môžete sem napísať niečo viac o tejto fotke.</p>
+                        <h3 className="text-lg font-semibold mt-2 mb-2">Návrh footra</h3>
+                        <p className="">Obsahuje rôzdne prepojenia na sociálne siete alebo iné podstránky</p>
                     </div>
                 </div>
                 
