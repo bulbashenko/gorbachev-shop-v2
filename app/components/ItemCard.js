@@ -72,7 +72,7 @@ export default function ItemCard({ product }) {
               <span className="text-red-500 font-bold text-xl">
                 {formattedPrice}
               </span>
-              <span className="line-through text-gray-500 text-lg">
+              <span className="line-through text-gray-500 text-sm">
                 {formattedOriginalPrice}
               </span>
             </div>

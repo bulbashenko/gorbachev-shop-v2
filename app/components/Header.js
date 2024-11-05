@@ -110,7 +110,7 @@ export default function Header() {
               <AnimatePresence>
                 {isCurrencyOpen && (
                   <motion.ul
-                    className="mt-2 w-full bg-black rounded shadow-lg overflow-hidden absolute left-0"
+                    className="mt-2 w-full bg-black rounded shadow-lg overflow-hidden absolute left-0 z-50"
                     initial="hidden"
                     animate="visible"
                     exit="hidden"
