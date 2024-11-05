@@ -10,18 +10,23 @@ import { motion } from 'framer-motion';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const itemVariants = {
+  hidden: { opacity: 0, x: 50 },
+  visible: { 
+    opacity: 1, 
+    x: 0, 
+    transition: { duration: 0.5 } 
+  },
+};
+
 export default function ItemCard({ product }) {
   const { name, slug, price, image, discount } = product;
   const { currency, exchangeRates } = useContext(CurrencyContext);
   const { addToCart } = useContext(CartContext);
 
-  // Calculate final price after discount in the base currency (EUR)
   const basePrice = discount > 0 ? price - (price * discount) / 100 : price;
-
-  // Convert price to selected currency
   const convertedPrice = (basePrice * exchangeRates[currency]).toFixed(2);
 
-  // Format price with currency symbol
   const currencySymbols = {
     EUR: '€',
     USD: '$',
@@ -33,20 +38,21 @@ export default function ItemCard({ product }) {
     currencySymbols[currency] || currency
   }`;
 
-  // Original price in selected currency (for displaying discount)
   const originalPrice = (price * exchangeRates[currency]).toFixed(2);
   const formattedOriginalPrice = `${originalPrice} ${
     currencySymbols[currency] || currency
   }`;
 
-  // Function to add the product to the cart and display a notification
   const handleAddToCart = () => {
-    addToCart(product); // Add product to the cart
+    addToCart(product);
+    toast.success(`${name} добавлен(а) в корзину!`);
   };
 
   return (
-    <div className="bg-zinc-800 text-white p-6 relative rounded-xl overflow-hidden w-full">
-      {/* Product image with link */}
+    <motion.div
+      variants={itemVariants}
+      className="bg-zinc-800 text-white p-6 relative rounded-xl overflow-hidden w-full"
+    >
       <div className="relative w-full h-auto">
         <Link href={`/product/${slug}`}>
           <img
@@ -55,7 +61,6 @@ export default function ItemCard({ product }) {
             className="w-full h-full object-cover rounded-lg cursor-pointer"
           />
         </Link>
-        {/* Discount badge */}
         {discount > 0 && (
           <span className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-sm rounded">
             -{discount}%
@@ -63,7 +68,6 @@ export default function ItemCard({ product }) {
         )}
       </div>
 
-      {/* Product information */}
       <div className="mt-4">
         <h3 className="text-lg font-semibold">{name}</h3>
         <div className="mt-2">
@@ -82,14 +86,13 @@ export default function ItemCard({ product }) {
         </div>
       </div>
 
-      {/* Cart button */}
       <motion.button
         onClick={handleAddToCart}
         className="w-full mt-4 bg-zinc-600 text-white py-3 rounded-lg text-center sm:absolute sm:bottom-4 sm:right-4 sm:w-16 sm:h-16 sm:py-0"
         aria-label="Add to cart"
         whileHover={{
-          backgroundColor: '#3f3f46', // Dark color on hover
-          color: '#14b8a6', // Teal color for icon on hover
+          backgroundColor: '#404040',
+          color: '#9ca3af',
         }}
         transition={{ duration: 0.3 }}
       >
@@ -98,6 +101,6 @@ export default function ItemCard({ product }) {
           style={{ color: 'inherit' }}
         />
       </motion.button>
-    </div>
+    </motion.div>
   );
 }
