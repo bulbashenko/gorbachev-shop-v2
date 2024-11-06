@@ -27,31 +27,31 @@ const SekciaZmeny = () => {
     // Klávesové skratky pre zmenu veľkosti textu
     useEffect(() => {
         const handleKeyDown = (event) => {
-            if (event.ctrlKey && event.key === '+') {
-                changeFontSize('increase');
-            } else if (event.ctrlKey && event.key === '-') {
-                changeFontSize('decrease');
-            }else if(event.ctrlKey && event.key == '0'){
-                changeFontSize('reset');
-            }
-
-            if (event.altKey && event.key === '+') {
-                changeFontSize('increase');
-            } else if (event.altKey && event.key === '-') {
-                changeFontSize('decrease');
-            } else if(event.altKey && event.key == '0'){
-                changeFontSize('reset');
+            // Check if CTRL or ALT is pressed
+            if (event.ctrlKey || event.altKey) {
+                // For increasing font size
+                if (event.key === '+' || (event.key === '=' && event.shiftKey)) {
+                    changeFontSize('increase');
+                }
+                // For decreasing font size
+                else if (event.key === '-') {
+                    changeFontSize('decrease');
+                }
+                // For resetting font size
+                else if (event.key === '0') {
+                    changeFontSize('reset');
+                }
             }
         };
-
+    
         document.addEventListener('keydown', handleKeyDown);
-        
+    
         // Clean up event listener
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
-
+    
     // Funkcia na načítanie responzívneho CSS
 const loadResponsiveCSS = () => {
     const width = window.innerWidth;
@@ -107,7 +107,7 @@ useEffect(() => {
         <div id="sekcia_zmena" className="p-4 bg-black text-lg">
             <h2 className="text-4xl font-bold mb-4 text-center">Zmeny v UI/UX a prístupnosti</h2>
             <p className="mb-2 text-center">Táto sekcia obsahuje informácie o vykonaných vylepšeniach, úpravách a modifikáciách z pohľadu prístupnosti a používateľského rozhrania.</p>
-            <p className="mb-2 text-center">Veľkosť textu môžete zmeniť tlačidlami, použitím klávesy CTRL/ALT a +/-</p>
+            <p className="mb-2 text-center">Veľkosť textu môžete zmeniť tlačidlami, použitím klávesy CTL/ALT/SHIFT + a CTRL/ALT -</p>
             <p className="mb-2 text-center">Pre obnovenie textu stačí zatlačiť CTRL/ALT 0</p>
             <p className='mb-2 text-center'></p>
             

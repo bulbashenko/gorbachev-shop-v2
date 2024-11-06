@@ -1,4 +1,4 @@
-import { Afacad } from "next/font/google";
+import { Afacad,  } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import NavigationMenu from "./components/NavigationMenu";
@@ -9,20 +9,20 @@ import { Analytics } from "@vercel/analytics/react"
 import Providers from "./components/Providers";
 import Footer from "./components/Footer";
 
-const neue_machina = localFont({
+const openDyslexic  = localFont({
   src: [
     {
-      path: './fonts/PPNeueMachina-InktrapRegular.otf',
+      path: './fonts/OpenDyslexic-Regular.otf',
       weight: '400',
       style: 'normal'
     },
     {
-      path: './fonts/PPNeueMachina-InktrapRegularItalic.otf',
-      weight: '400',
-      style: 'italic'
+      path: './fonts/OpenDyslexic-Bold.otf',
+      weight: '700',
+      style: 'normal'
     }
   ]
-});
+})
 
 const afacad = Afacad({
   weight: ['400', '700'],
@@ -43,7 +43,7 @@ export default function RootLayout({ children }) {
       <Providers>
       <CartProvider>
       <CurrencyProvider>
-      <body className={`${afacad.className} `}>
+      <body className={afacad.className}>
         <Analytics />
         <Header />
         <NavigationMenu />
