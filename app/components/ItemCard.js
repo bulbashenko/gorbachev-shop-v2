@@ -7,7 +7,6 @@ import { useContext } from 'react';
 import { CurrencyContext } from '../contexts/CurrencyContext';
 import { CartContext } from '../contexts/CartContext';
 import { motion } from 'framer-motion';
-import 'react-toastify/dist/ReactToastify.css';
 
 const itemVariants = {
   hidden: { opacity: 0, x: 50 },

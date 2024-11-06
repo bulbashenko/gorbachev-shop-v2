@@ -6,9 +6,7 @@ import Link from 'next/link';
 import { CartContext } from '../contexts/CartContext';
 import { CurrencyContext } from '../contexts/CurrencyContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { toast, ToastContainer } from 'react-toastify';
 import { FaPlus, FaMinus } from 'react-icons/fa';
-import 'react-toastify/dist/ReactToastify.css';
 
 // Варианты анимации для плавного раскрытия
 const dropdownVariants = {
@@ -205,11 +203,6 @@ const ProductPage = ({ product }) => {
     e.preventDefault();
     // Add logic to submit the review to the server here
 
-    toast.success('Your review has been submitted!', {
-      position: 'top-right',
-      autoClose: 3000,
-    });
-
     setReview({
       user: '',
       rating: 5,
@@ -226,7 +219,6 @@ const ProductPage = ({ product }) => {
 
   return (
     <div className="min-h-screen p-6">
-      <ToastContainer />
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8">
         {/* Раздел с изображениями продукта */}
         <div className="flex-1">
