@@ -26,7 +26,7 @@ const Footer = () => {
           {/* Card 1: About Us */}
           <div className="bg-zinc-800 text-white p-6 rounded-xl shadow-lg flex-1">
             <h3 className="text-xl font-semibold mb-2">About Us</h3>
-            <Link href="/about" className="hover:underline">
+            <Link href="/information" className="hover:underline">
               Learn More
             </Link>
           </div>
