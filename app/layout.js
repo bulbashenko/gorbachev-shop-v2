@@ -6,7 +6,6 @@ import Header from "./components/Header";
 import { CurrencyProvider } from './contexts/CurrencyContext';
 import { CartProvider } from './contexts/CartContext';
 import { Analytics } from "@vercel/analytics/react"
-import Providers from "./components/Providers";
 import Footer from "./components/Footer";
 
 const openDyslexic  = localFont({
@@ -40,7 +39,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className="dark bg-background text-foreground" >
-      <Providers>
       <CartProvider>
       <CurrencyProvider>
       <body className={afacad.className}>
@@ -52,7 +50,6 @@ export default function RootLayout({ children }) {
       </body>
       </CurrencyProvider>
       </CartProvider>
-      </Providers>
     </html>
   );
 }
