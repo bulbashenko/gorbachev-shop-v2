@@ -13,9 +13,12 @@ import {
 } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CurrencyContext } from '../contexts/CurrencyContext';
+import { CartContext } from '../contexts/CartContext'; // Import CartContext
 
 export default function Header() {
   const { currency, setCurrency } = useContext(CurrencyContext);
+  const { cartItems } = useContext(CartContext); // Access cartItems
+  const totalQuantity = cartItems.reduce((total, item) => total + item.quantity, 0); // Calculate total quantity
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCurrencyOpen, setIsCurrencyOpen] = useState(false);
   const pathname = usePathname(); // Use usePathname to get the current path
@@ -58,9 +61,14 @@ export default function Header() {
             </Link>
           </div>
 
-          <div className="flex items-center space-x-4">
-            <Link href="/cart">
+          <div className="flex items-center space-x-4 relative">
+            <Link href="/cart" className="relative">
               <FiShoppingCart className="w-6 h-6" />
+              {totalQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                  {totalQuantity}
+                </span>
+              )}
             </Link>
           </div>
         </div>
@@ -159,8 +167,13 @@ export default function Header() {
             <Link href="/favorites">
               <FiHeart className="w-6 h-6" />
             </Link>
-            <Link href="/cart">
+            <Link href="/cart" className="relative">
               <FiShoppingCart className="w-6 h-6" />
+              {totalQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                  {totalQuantity}
+                </span>
+              )}
             </Link>
           </div>
         </div>
@@ -270,6 +283,14 @@ export default function Header() {
             </Link>
             <Link href="/favorites">
               <FiHeart className="w-6 h-6" />
+            </Link>
+            <Link href="/cart" className="relative">
+              <FiShoppingCart className="w-6 h-6" />
+              {totalQuantity > 0 && (
+                <span className="absolute -top-2 -right-2 inline-flex items-center justify-center px-1.5 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                  {totalQuantity}
+                </span>
+              )}
             </Link>
           </div>
         </div>

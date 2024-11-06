@@ -2,12 +2,11 @@
 'use client';
 
 import Link from 'next/link';
-import { FiShoppingCart } from 'react-icons/fi';
+import { FiShoppingCart, FiX } from 'react-icons/fi';
 import { useContext } from 'react';
 import { CurrencyContext } from '../contexts/CurrencyContext';
 import { CartContext } from '../contexts/CartContext';
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const itemVariants = {
@@ -20,7 +19,7 @@ const itemVariants = {
 };
 
 export default function ItemCard({ product }) {
-  const { name, slug, price, image, discount } = product;
+  const { name, slug, price, image, discount, available } = product;
   const { currency, exchangeRates } = useContext(CurrencyContext);
   const { addToCart } = useContext(CartContext);
 
@@ -44,8 +43,8 @@ export default function ItemCard({ product }) {
   }`;
 
   const handleAddToCart = () => {
-    addToCart(product);
-    toast.success(`${name} добавлен(а) в корзину!`);
+    const productWithQuantity = { ...product, quantity: 1 };
+    addToCart(productWithQuantity);
   };
 
   return (
@@ -58,13 +57,20 @@ export default function ItemCard({ product }) {
           <img
             src={image}
             alt={name}
-            className="w-full h-full object-cover rounded-lg cursor-pointer"
+            className={`w-full h-full object-cover rounded-lg cursor-pointer ${
+              !available ? 'opacity-50' : ''
+            }`}
           />
         </Link>
-        {discount > 0 && (
+        {discount > 0 && available && (
           <span className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-sm rounded">
             -{discount}%
           </span>
+        )}
+        {!available && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg">
+            <span className="text-white text-xl font-bold">Out of stock</span>
+          </div>
         )}
       </div>
 
@@ -86,21 +92,35 @@ export default function ItemCard({ product }) {
         </div>
       </div>
 
-      <motion.button
-        onClick={handleAddToCart}
-        className="w-full mt-4 bg-zinc-600 text-white py-3 rounded-lg text-center sm:absolute sm:bottom-4 sm:right-4 sm:w-16 sm:h-16 sm:py-0"
-        aria-label="Add to cart"
-        whileHover={{
-          backgroundColor: '#404040',
-          color: '#9ca3af',
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        <FiShoppingCart
-          className="inline-block w-6 h-6 sm:w-8 sm:h-8"
-          style={{ color: 'inherit' }}
-        />
-      </motion.button>
+      {available ? (
+        <motion.button
+          onClick={handleAddToCart}
+          className="w-full mt-4 bg-zinc-600 text-white py-3 rounded-lg text-center sm:absolute sm:bottom-4 sm:right-4 sm:w-16 sm:h-16 sm:py-0"
+          aria-label="Add to cart"
+          whileHover={{
+            backgroundColor: '#404040',
+            color: '#9ca3af',
+          }}
+          transition={{ duration: 0.3 }}
+        >
+          <FiShoppingCart
+            className="inline-block w-6 h-6 sm:w-8 sm:h-8"
+            style={{ color: 'inherit' }}
+          />
+        </motion.button>
+      ) : (
+        <motion.button
+          disabled
+          className="w-full mt-4 bg-gray-600 text-white py-3 rounded-lg text-center cursor-not-allowed opacity-50 sm:absolute sm:bottom-4 sm:right-4 sm:w-16 sm:h-16 sm:py-0"
+          aria-label="Недоступен"
+        >
+          <span className="block sm:hidden">Not available</span>
+          <FiX
+            className="hidden sm:inline-block w-6 h-6 sm:w-8 sm:h-8"
+            style={{ color: 'inherit' }}
+          />
+        </motion.button>
+      )}
     </motion.div>
   );
 }

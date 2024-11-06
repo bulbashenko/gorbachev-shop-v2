@@ -98,11 +98,11 @@ const QuantitySelector = ({ quantity, setQuantity, maxQuantity }) => {
 
   return (
     <div className="bg-zinc-600 rounded-xl overflow-hidden">
-      <div className="font-semibold p-4">
+      <div className="font-semibold p-4 ">
         Quantity
       </div>
       <div className="bg-zinc-700 p-4">
-        <div className="flex items-center justify-between max-w-[200px]">
+        <div className="flex items-center justify-between">
           <button
             onClick={handleDecrement}
             disabled={quantity <= 1}

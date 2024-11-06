@@ -12,8 +12,8 @@ export const CurrencyProvider = ({ children }) => {
   const exchangeRates = {
     EUR: 1,
     USD: 1.1,
-    RUB: 104,
-    UAH: 50,
+    RUB: 106,
+    UAH: 45,
   };
 
   const value = {

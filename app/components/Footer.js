@@ -69,8 +69,8 @@ const Footer = () => {
               <Link href="/privacy-policy" className="hover:underline">
                 Privacy Policy
               </Link>
-              <Link href="/gift-certificate" className="text-teal-500 hover:underline">
-                Gift Certificate
+              <Link href="/sekcia-zmeny" className="text-teal-500 hover:underline">
+                Seckia Zmeny
               </Link>
             </div>
           </div>

@@ -11,7 +11,6 @@ const initialState = {
   cartItems: [],
 };
 
-// Reducer to manage cart state
 const cartReducer = (state, action) => {
   switch (action.type) {
     case 'ADD_TO_CART':
@@ -20,15 +19,15 @@ const cartReducer = (state, action) => {
       );
 
       if (existingItemIndex >= 0) {
-        // If item is already in cart, increase quantity
+        // If item is already in cart, increase quantity by the amount added
         const updatedCartItems = [...state.cartItems];
-        updatedCartItems[existingItemIndex].quantity += 1;
+        updatedCartItems[existingItemIndex].quantity += action.payload.quantity;
         return { ...state, cartItems: updatedCartItems };
       } else {
-        // If item is not in cart, add it with quantity 1
+        // If item is not in cart, add it with the specified quantity
         return {
           ...state,
-          cartItems: [...state.cartItems, { ...action.payload, quantity: 1 }],
+          cartItems: [...state.cartItems, { ...action.payload }],
         };
       }
 
@@ -59,6 +58,7 @@ const cartReducer = (state, action) => {
       return state;
   }
 };
+
 
 // Context provider
 export const CartProvider = ({ children }) => {

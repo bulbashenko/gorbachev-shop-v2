@@ -2,15 +2,30 @@
 
 import React, { useContext, useState } from 'react';
 import { CartContext } from '../contexts/CartContext';
+import { CurrencyContext } from '../contexts/CurrencyContext';
 
 const CartPage = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
   const [showWarning, setShowWarning] = useState(null);
+  const { currency, exchangeRates } = useContext(CurrencyContext);
+
+  // Map currency codes to their symbols
+  const currencySymbols = {
+    EUR: '€',
+    USD: '$',
+    RUB: '₽',
+    UAH: '₴',
+  };
 
   const calculateTotalPrice = () => {
-    return cartItems
-      .reduce((total, item) => total + ((item.price * (1 - (item.discount || 0) / 100)) * item.quantity), 0)
-      .toFixed(2);
+    const rate = exchangeRates[currency];
+    const totalInEur = cartItems.reduce(
+      (total, item) =>
+        total + (item.price * (1 - (item.discount || 0) / 100)) * item.quantity,
+      0
+    );
+    const totalInSelectedCurrency = totalInEur * rate;
+    return totalInSelectedCurrency.toFixed(2);
   };
 
   const handleQuantityChange = (item, newQuantity) => {
@@ -34,7 +49,7 @@ const CartPage = () => {
   return (
     <div className="p-5">
       <h1 className="text-3xl font-semibold mb-6 text-center">Shopping Cart</h1>
-      
+
       {cartItems.length === 0 ? (
         <p className="text-center text-lg">Your cart is empty.</p>
       ) : (
@@ -53,15 +68,28 @@ const CartPage = () => {
               {cartItems.map((item) => (
                 <tr key={item.slug} className="border-b hover:bg-gray-800">
                   <td className="py-4 text-center align-middle">
-                    <img src={item.image} alt={item.name} className="w-16 h-16 object-cover mx-auto" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-16 h-16 object-cover mx-auto"
+                    />
                   </td>
-                  <td className="py-4 font-medium text-center text-white">{item.name}</td>
+                  <td className="py-4 font-medium text-center text-white">
+                    {item.name}
+                  </td>
                   <td className="py-4 text-center text-white">
-                    ${((item.price * (1 - (item.discount || 0) / 100)).toFixed(2))}
+                    {currencySymbols[currency]}
+                    {(
+                      item.price *
+                      (1 - (item.discount || 0) / 100) *
+                      exchangeRates[currency]
+                    ).toFixed(2)}
                   </td>
                   <td className="py-4 text-center flex items-center justify-center gap-2">
                     <button
-                      onClick={() => handleQuantityChange(item, item.quantity - 1)}
+                      onClick={() =>
+                        handleQuantityChange(item, item.quantity - 1)
+                      }
                       className="px-2 py-1 bg-black text-white rounded"
                     >
                       -
@@ -71,10 +99,14 @@ const CartPage = () => {
                       min="0"
                       className="w-12 text-center text-black appearance-none"
                       value={item.quantity}
-                      onChange={(e) => handleQuantityChange(item, parseInt(e.target.value))}
+                      onChange={(e) =>
+                        handleQuantityChange(item, parseInt(e.target.value))
+                      }
                     />
                     <button
-                      onClick={() => handleQuantityChange(item, item.quantity + 1)}
+                      onClick={() =>
+                        handleQuantityChange(item, item.quantity + 1)
+                      }
                       className="px-2 py-1 bg-black text-white rounded"
                     >
                       +
@@ -94,10 +126,13 @@ const CartPage = () => {
           </table>
 
           <div className="mt-6 flex justify-between items-center">
-            <h3 className="text-xl font-semibold text-white">Total: ${calculateTotalPrice()}</h3>
+            <h3 className="text-xl font-semibold text-white">
+              Total: {currencySymbols[currency]}
+              {calculateTotalPrice()}
+            </h3>
             <button
-              className="px-6 py-2 bg-black text-white rounded hover:bg-gray-800"
-              onClick={() => alert("Purchase confirmed!")}
+              className="px-6 py-2 bg-zinc-700 text-white rounded hover:bg-zinc-600"
+              onClick={() => alert('Purchase confirmed!')}
             >
               Confirm Purchase
             </button>
@@ -108,7 +143,9 @@ const CartPage = () => {
       {showWarning && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-gray-900 p-6 rounded shadow-lg text-center">
-            <p className="mb-4">Do you really want to remove an item from your cart?</p>
+            <p className="mb-4">
+              Do you really want to remove an item from your cart?
+            </p>
             <button
               className="px-4 py-2 bg-red-500 text-white rounded mr-2"
               onClick={() => confirmRemoveItem(showWarning)}
