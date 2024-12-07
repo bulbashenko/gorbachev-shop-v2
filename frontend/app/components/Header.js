@@ -161,7 +161,7 @@ export default function Header() {
             </div>
 
             {/* Functional icons */}
-            <Link href="/account">
+            <Link href="/auth">
               <FiUser className="w-6 h-6" />
             </Link>
             <Link href="/favorites">
@@ -278,7 +278,7 @@ export default function Header() {
           </div>
 
           <div className="flex space-x-4">
-            <Link href="/account">
+            <Link href="/auth">
               <FiUser className="w-6 h-6" />
             </Link>
             <Link href="/favorites">
