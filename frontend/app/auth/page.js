@@ -82,7 +82,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen font-sans">
+    <div className="flex flex-col items-center h-screen font-sans">
       <h1 className="text-2xl font-bold mb-6">
         {isRegistering ? "Register" : "Log In"}
       </h1>
